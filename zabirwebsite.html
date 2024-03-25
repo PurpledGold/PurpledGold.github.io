@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap" rel="stylesheet">
+<head>
+  <title>Zabir Ahmed</title>
+  <style>
+    body {
+      text-align: center;
+      background: url("https://images.axios.com/wjG2jH8VxOWX4AfO2n9qjtYNFMk=/421x0:1501x1080/1920x1920/2023/08/25/1692924813223.png");
+      background-size: cover;
+      background-position: center;
+      color: blue;
+      font-family: 'Roboto Mono';
+    }
+    p {
+      font-size: 22px;
+    }
+    input {
+      border: 0;
+      padding: 20px;
+      font-size: 17px;
+      font-family: 'Josefin Sans'
+    }
+    input[type="submit"] {
+      background: green;
+      color: yellow;
+    }
+  </style>
+</head>
+<body>
+  <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9a/Trollface_non-free.png/220px-Trollface_non-free.png">
+  <p>Hi! I'm Zabir, and like forntite</p>
+  <input id="Name" placeholder="Your Name!">
+  <input id="Email" type="email" placeholder="Your credit card info!">
+  <input id="submit" type="submit">
+  <script type="module"> 
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+	import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDsozUpMbWonrchbJqRjm_IPT8Tg-SOW5Y",
+      authDomain: "zabir-website.firebaseapp.com",
+      projectId: "zabir-website",
+      storageBucket: "zabir-website.appspot.com",
+      messagingSenderId: "641518100287",
+      appId: "1:641518100287:web:673c941c48844585ca7d8a"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+	const db = getDatabase (app) ;
+	const Name = document.querySelector("#Name") 
+	const Email = document.querySelector("#Email")
+	document.querySelector('#submit').addEventListener('click', Submit)
+
+	function Submit() {
+		  const timestamp = buildTimestamp()
+	  
+		  set(ref(db, timestamp), {
+			  Name: Name.value,
+		      email: Email.value,
+		  });
+
+		  Name.value = ""
+		  Email.value = ""
+		}
+	
+	function buildTimestamp() {
+			  const now = new Date();
+			  let timestamp = now.getFullYear().toString() + "/";
+			  //const month = now.toLocaleString('default', { month: 'long' });
+
+			  let month = now.getMonth()+1   //add 1 because Javascript uses 0 for January
+			  month = month.toString()
+			  month = addLeadingZero(month)
+			  timestamp += month + "/"; 
+
+			  let date = now.getDate().toString()
+			  date = addLeadingZero(date)
+			  timestamp += date + "/";
+
+			  let hours = now.getHours().toString()
+			  hours = addLeadingZero(hours)
+			  timestamp += hours + ":";
+
+			  let minutes = now.getMinutes().toString()
+			  minutes = addLeadingZero(minutes)
+			  timestamp += minutes + ":";
+
+			  let seconds = now.getSeconds().toString()
+			  seconds = addLeadingZero(seconds)
+			  timestamp += seconds;
+  
+			  return timestamp
+			}
+	
+	function addLeadingZero(units) {
+				if (units.length < 2) {
+					units = "0" + units
+				}
+				return units
+			}
+		
+  </script>
+</body>
